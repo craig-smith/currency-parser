@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Craig on 1/24/2016.
  */
-public class ExchangeTablesDirectory {
+class ExchangeTablesDirectory {
 
     private static final String PATH_TO_DIRECTORY =  "http://www.nbp.pl/kursy/xml/";
     private static final String FILE_NAME = "dir.txt";

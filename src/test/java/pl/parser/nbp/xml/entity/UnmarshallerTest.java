@@ -1,7 +1,9 @@
 package pl.parser.nbp.xml.entity;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import pl.parser.nbp.pl.parser.nbp.utils.Log;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,12 +19,15 @@ import java.util.List;
 
 public class UnmarshallerTest {
 
+    static Logger log = Logger.getLogger(UnmarshallerTest.class);
+
     @Test
     public void testJaxUnmarshal() throws JAXBException, FileNotFoundException {
+        Log.configureLogger();
         JAXBContext context = JAXBContext.newInstance(RootTable.class);
         Unmarshaller um = context.createUnmarshaller();
-        RootTable table = (RootTable) um.unmarshal(new FileReader("C:\\Users\\Craig.HOME\\IdeaProjects\\currency-parser\\target\\classes\\c001z160104.xml"));
-
+        RootTable table = (RootTable) um.unmarshal(new FileReader(Thread.currentThread().getContextClassLoader().getResource("c001z160104.xml").getFile()));
+        log.debug("Unmarshaled file " + table.toString());
         List<TypeCTable> typeCTables =  table.getCurrencyListings();
 
         Assert.assertEquals(13, typeCTables.size());

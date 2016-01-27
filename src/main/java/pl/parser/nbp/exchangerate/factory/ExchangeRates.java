@@ -7,6 +7,7 @@ package pl.parser.nbp.exchangerate.factory;
 import org.joda.time.DateTime;
 
 
-public class ExchangeRates {
+class ExchangeRates {
+
 
 }
