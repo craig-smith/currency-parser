@@ -1,4 +1,4 @@
-package pl.parser.nbp.pl.parser.nbp.http;
+package pl.parser.nbp.http;
 
 import org.apache.log4j.Logger;
 

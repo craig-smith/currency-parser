@@ -3,7 +3,7 @@ package pl.parser.nbp.xml.entity;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import pl.parser.nbp.pl.parser.nbp.utils.Log;
+import pl.parser.nbp.utils.Log;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

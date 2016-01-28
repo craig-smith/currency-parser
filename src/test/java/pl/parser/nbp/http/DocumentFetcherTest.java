@@ -1,10 +1,10 @@
-package pl.parser.nbp.pl.parser.nbp.http;
+package pl.parser.nbp.http;
 
 
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import pl.parser.nbp.pl.parser.nbp.utils.Log;
+import pl.parser.nbp.utils.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;

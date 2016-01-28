@@ -1,4 +1,4 @@
-package pl.parser.nbp.pl.parser.nbp.utils;
+package pl.parser.nbp.utils;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
