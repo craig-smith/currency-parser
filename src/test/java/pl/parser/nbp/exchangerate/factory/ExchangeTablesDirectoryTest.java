@@ -16,7 +16,8 @@ public class ExchangeTablesDirectoryTest {
         DateTime beginTime = new DateTime(2014, 2, 20, 13, 0);
         DateTime endTime = new DateTime(2016, 1, 21, 2, 0);
 
-        ExchangeTablesDirectory tablesDirectory = new ExchangeTablesDirectory(beginTime, endTime);
+        ExchangeTablesDirectory tablesDirectory = new ExchangeTablesDirectory();
+        tablesDirectory.setDates(beginTime, endTime);
         List<String> directoryPaths = tablesDirectory.getDirectoryPaths();
 
         Assert.assertEquals(2, directoryPaths.size());

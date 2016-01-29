@@ -1,6 +1,7 @@
 package pl.parser.nbp.http;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,11 +13,9 @@ import java.net.URL;
 /**
  * Created by Craig on 1/27/2016.
  */
+@Component
 public class DocumentFetcher {
 static Logger log = Logger.getLogger(DocumentFetcher.class);
-    private HttpURLConnection httpURLConnection;
-    private BufferedReader bufferedReader;
-
 
     public BufferedReader getDocument(String path){
         BufferedReader bufferedReader = null;
