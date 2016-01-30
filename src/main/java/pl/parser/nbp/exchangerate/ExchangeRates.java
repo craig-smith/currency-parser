@@ -1,4 +1,4 @@
-package pl.parser.nbp.exchangerate.factory;
+package pl.parser.nbp.exchangerate;
 
 /**
  * Created by Craig on 1/24/2016.

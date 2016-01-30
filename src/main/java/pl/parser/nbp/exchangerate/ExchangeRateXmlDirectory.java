@@ -1,4 +1,4 @@
-package pl.parser.nbp.exchangerate.factory;
+package pl.parser.nbp.exchangerate;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -10,10 +10,7 @@ import pl.parser.nbp.http.DocumentFetcher;
 import pl.parser.nbp.xml.entity.CurrencyCode;
 import pl.parser.nbp.xml.entity.RootTable;
 import pl.parser.nbp.xml.entity.RootTableUnmarsheler;
-import pl.parser.nbp.xml.entity.TypeCTable;
 
-import javax.print.Doc;
-import javax.xml.bind.JAXBContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 

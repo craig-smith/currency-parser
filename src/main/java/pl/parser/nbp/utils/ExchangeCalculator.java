@@ -5,6 +5,7 @@ import pl.parser.nbp.xml.entity.BuyRateInterface;
 import pl.parser.nbp.xml.entity.SellRateInterface;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class ExchangeCalculator {
         return calculateAverage(numbers);
     }
 
-    public BigDecimal calculatSellRateAverage(List<? extends SellRateInterface> sellRateList) {
+    public BigDecimal calculateSellRateAverage(List<? extends SellRateInterface> sellRateList) {
         List<BigDecimal> numbers = getNumberListFromSellRate(sellRateList);
         return calculateAverage(numbers);
     }
@@ -68,7 +69,7 @@ public class ExchangeCalculator {
             sum = sum.add(num);
         }
 
-        return sum.divide(count);
+        return sum.divide(count, MathContext.DECIMAL128);
     }
 
     private BigDecimal calculateStandardDeviation(List<BigDecimal> numbers){

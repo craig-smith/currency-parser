@@ -1,4 +1,4 @@
-package pl.parser.nbp.exchangerate.factory;
+package pl.parser.nbp.exchangerate;
 
 
 import org.joda.time.DateTime;

@@ -15,7 +15,8 @@ public enum CurrencyCode {
     CZK("CZK", "Czek Corona"),
     DKK("DKK", "Norwegian Crown"),
     SEK("SEK", "Swedish Crown"),
-    XDR("XDR", "Special Drawing Rights");
+    XDR("XDR", "Special Drawing Rights"),
+    UNKNOWN("UNKNOWN", "UNKNOWN");
 
 
     private final String code;
@@ -61,8 +62,39 @@ public enum CurrencyCode {
             case "XDR":
                 return XDR.name;
             default:
-                return "Unknown";
+                return UNKNOWN.name;
 
+        }
+    }
+
+    public static CurrencyCode findCurrencyByCode(String code) {
+        switch (code) {
+            case "USD":
+                return USD;
+            case "AUD":
+                return AUD;
+            case "CAD":
+                return CAD;
+            case "EUR":
+                return EUR;
+            case "HUR":
+                return HUR;
+            case "CHF":
+                return CHF;
+            case "GBP":
+                return GBP;
+            case "JPY":
+                return JPY;
+            case "CZK":
+                return CZK;
+            case "DKK":
+                return DKK;
+            case "SEK":
+                return SEK;
+            case "XDR":
+                return XDR;
+            default:
+                return UNKNOWN;
         }
     }
 }

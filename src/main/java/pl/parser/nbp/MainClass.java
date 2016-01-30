@@ -1,9 +1,11 @@
 package pl.parser.nbp;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import pl.parser.nbp.exchangerate.factory.ExchangeRates;
+import pl.parser.nbp.exchangerate.ExchangeRates;
 import pl.parser.nbp.spring.SpringConfig;
 import pl.parser.nbp.utils.ExchangeCalculator;
 import pl.parser.nbp.xml.entity.CurrencyCode;
@@ -23,11 +25,27 @@ public class MainClass {
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         ExchangeRates exchangeRates = (ExchangeRates) ctx.getBean("exchangeRates");
-        List<RootTable> allCurrencyListings = exchangeRates.getExchangeListings(new DateTime(2013, 1, 28, 0, 0), new DateTime(2013, 1, 31, 0, 0));
+
+        DateTime from = null;
+        DateTime to = null;
+        CurrencyCode code = null;
+
+        if (args.length > 0 && args.length == 3) {
+            code = CurrencyCode.findCurrencyByCode(args[0]);
+            DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+            from = formatter.parseDateTime(args[1]);
+            to = formatter.parseDateTime(args[2]);
+        } else {
+            System.out.println("You must supply the correct arguments!!");
+            System.out.print("Currency type");
+            System.out.println("Date from");
+            System.out.println("Date to");
+        }
+        List<RootTable> allCurrencyListings = exchangeRates.getExchangeListings(from, to);
 
         List<TypeCTable> typeCTables = new ArrayList<>();
         for (RootTable rootTable : allCurrencyListings) {
-            typeCTables.addAll(rootTable.getFilteredCurrencyList(CurrencyCode.EUR));
+            typeCTables.addAll(rootTable.getFilteredCurrencyList(code));
         }
 
         BigDecimal buyRateAverage = new ExchangeCalculator().calculateBuyRateAverage(typeCTables);
