@@ -4,8 +4,16 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.parser.nbp.http.DocumentFetcher;
+import pl.parser.nbp.xml.entity.CurrencyCode;
+import pl.parser.nbp.xml.entity.RootTable;
+import pl.parser.nbp.xml.entity.RootTableUnmarsheler;
+import pl.parser.nbp.xml.entity.TypeCTable;
 
+import javax.print.Doc;
+import javax.xml.bind.JAXBContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -16,7 +24,7 @@ import java.util.List;
  * Created by Craig on 1/28/2016.
  */
 @Component
-public class ExchangeRateXmlDirectory {
+class ExchangeRateXmlDirectory {
 
     static Logger log = Logger.getLogger(ExchangeRateXmlDirectory.class);
     private List<String> exchangeRateFiles = new ArrayList<String>();
@@ -26,18 +34,26 @@ public class ExchangeRateXmlDirectory {
 
     private DateTime from;
     private DateTime to;
+    private CurrencyCode currencyCode;
 
-    protected List<String> getExchangeRateXmlDirectories(final DateTime from, final DateTime to, final List<BufferedReader> directoryReaders){
+    @Autowired
+    private DocumentFetcher documentFetcher;
+
+    @Autowired
+    private RootTableUnmarsheler rootTableUnmarsheler;
+
+    protected List<RootTable> getExchangeRateXmlObjectsByType(final DateTime from, final DateTime to, final List<BufferedReader> directoryReaders){
         log.debug("Starting reading year directories total " + directoryReaders.size());
         this.from = from;
         this.to = to;
+        this.currencyCode = currencyCode;
         for(BufferedReader directoryReader : directoryReaders){
             if(directoryReader != null){
                 getExchangeRateXmlPaths(directoryReader);
             }
         }
 
-        return exchangeRateFiles;
+        return getObjects();
     }
 
     private void getExchangeRateXmlPaths(BufferedReader reader) {
@@ -67,11 +83,20 @@ public class ExchangeRateXmlDirectory {
 
             DateTimeFormatter format = DateTimeFormat.forPattern("yyMMdd");
             DateTime xmlFileDate = format.parseDateTime(date);
-            if(from.isBefore(xmlFileDate.minusDays(1)) && to.isAfter(xmlFileDate.plusDays(1))){
+            if(from.isBefore(xmlFileDate.plusDays(1)) && to.isAfter(xmlFileDate.minusDays(1))){
                 String path = PATH_TO_DIRECTORY + series + "z" + date + EXTENSION;
                 exchangeRateFiles.add(path);
                 log.debug("added path to list " + path);
             }
         }
+    }
+
+    private List<RootTable> getObjects(){
+        List<RootTable> exchangeRates = new ArrayList<>();
+        for(String path : exchangeRateFiles){
+           BufferedReader xmlReader = documentFetcher.getDocument(path);
+            exchangeRates.add(rootTableUnmarsheler.unmarshel(xmlReader));
+        }
+        return exchangeRates;
     }
 }

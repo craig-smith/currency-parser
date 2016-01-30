@@ -2,6 +2,7 @@ package pl.parser.nbp.xml.entity;
 
 import javax.xml.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,13 +11,12 @@ import java.util.List;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-//@XmlType(propOrder = {"tableType", "tableUID", "tableNumber", "tableDate", "currencyListings"})
 @XmlRootElement(name = "tabela_kursow")
-public class RootTable {
+public class RootTable implements CurrencyTableIface {
 
 
-    //@XmlElementWrapper
-    @XmlElement (name = "pozycja")
+
+    @XmlElement(name = "pozycja")
     private List<TypeCTable> currencyListings;
 
     @XmlElement(name = "data_publikacji")
@@ -30,8 +30,6 @@ public class RootTable {
 
     @XmlAttribute(name = "uid")
     private String tableUID;
-
-
 
 
     public List<TypeCTable> getCurrencyListings() {
@@ -76,5 +74,33 @@ public class RootTable {
 
     public void setTableUID(String tableUID) {
         this.tableUID = tableUID;
+    }
+
+    @Override
+    public String toString() {
+        return "RootTable{" +
+                "currencyListings=" + currencyListings.toString() +
+                ", tableDate=" + tableDate +
+                ", tableNumber='" + tableNumber + '\'' +
+                ", tableType='" + tableType + '\'' +
+                ", tableUID='" + tableUID + '\'' +
+                '}';
+    }
+
+    @Override
+    public List<TypeCTable> getCompleteCurrencyList() {
+        return currencyListings;
+    }
+
+    @Override
+    public List<TypeCTable> getFilteredCurrencyList(CurrencyCode currencyCode) {
+        List<TypeCTable> filteredCurrencyList = new ArrayList<>();
+        for (TypeCTable currencyListing : currencyListings) {
+            if (currencyListing.getCurrencyCode().equals(currencyCode.getCode())) {
+                filteredCurrencyList.add(currencyListing);
+            }
+        }
+
+        return filteredCurrencyList;
     }
 }

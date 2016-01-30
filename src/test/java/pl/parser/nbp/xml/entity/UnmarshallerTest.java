@@ -3,7 +3,7 @@ package pl.parser.nbp.xml.entity;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import pl.parser.nbp.utils.Log;
+
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -23,7 +23,7 @@ public class UnmarshallerTest {
 
     @Test
     public void testJaxUnmarshal() throws JAXBException, FileNotFoundException {
-        Log.configureLogger();
+
         JAXBContext context = JAXBContext.newInstance(RootTable.class);
         Unmarshaller um = context.createUnmarshaller();
         RootTable table = (RootTable) um.unmarshal(new FileReader(Thread.currentThread().getContextClassLoader().getResource("c001z160104.xml").getFile()));

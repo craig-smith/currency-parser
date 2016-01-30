@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "RootTable")
 //@XmlType(propOrder = {"currency", "exchangeMultiple", "currencyCode", "buyRate"})
-public class TypeCTable {
+public class TypeCTable implements BuyRateInterface, SellRateInterface {
 
     @XmlElement(name = "nazwa_waluty")
-    private String currency;
+    private String currencyName;
 
     @XmlElement(name = "kod_waluty")
     private String currencyCode;
@@ -30,12 +30,12 @@ public class TypeCTable {
     @XmlElement(name = "kurs_sprzedazy")
     private BigDecimal sellRate;
 
-    public String getCurrency() {
-        return currency;
+    public String getCurrencyName() {
+        return CurrencyCode.getNameByCode(getCurrencyCode());
     }
 
     public void setCurrency(String currency) {
-        this.currency = currency;
+        this.currencyName = currency;
     }
 
 
@@ -71,5 +71,16 @@ public class TypeCTable {
 
     public void setSellRate(BigDecimal sellRate) {
         this.sellRate = sellRate;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Currency Name: " + getCurrencyName() + "\r\n");
+        stringBuilder.append("Currency Code: " + getCurrencyCode() + "\r\n");
+        stringBuilder.append("Buy Rate: " + getBuyRate() + "\r\n");
+        stringBuilder.append("Sell Rate: " + getSellRate() + "\r\n");
+        stringBuilder.append("Exchange Multiple: " + getExchangeMultiple() + "\r\n");
+        return stringBuilder.toString();
     }
 }

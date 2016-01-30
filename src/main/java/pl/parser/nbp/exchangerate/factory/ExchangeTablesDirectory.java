@@ -2,8 +2,11 @@ package pl.parser.nbp.exchangerate.factory;
 
 import org.joda.time.DateTime;
 import org.joda.time.Years;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.parser.nbp.http.DocumentFetcher;
 
+import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +19,9 @@ class ExchangeTablesDirectory {
     private static final String PATH_TO_DIRECTORY =  "http://www.nbp.pl/kursy/xml/";
     private static final String FILE_NAME = "dir";
     private static final String EXTENSION = ".txt";
+
+    @Autowired
+    private DocumentFetcher documentFetcher;
 
 
     private DateTime from;
@@ -32,7 +38,7 @@ class ExchangeTablesDirectory {
 
     }
 
-    protected List<String> getDirectoryPaths() {
+    protected List<BufferedReader> getDirectoryReaders() {
         boolean quit = false;
         do{
             if(Years.yearsBetween(from, to).getYears() == 0){
@@ -48,7 +54,7 @@ class ExchangeTablesDirectory {
 
         }while(!quit);
 
-        return directoryPaths;
+        return getReaders();
     }
 
     private void getPreviousYearDirectories(String year){
@@ -67,5 +73,14 @@ class ExchangeTablesDirectory {
         pathBuilder.append(FILE_NAME);
         pathBuilder.append(EXTENSION);
         directoryPaths.add(pathBuilder.toString());
+    }
+
+    private List<BufferedReader> getReaders(){
+        List<BufferedReader> readers = new ArrayList<>();
+        for(String path: directoryPaths){
+            readers.add(documentFetcher.getDocument(path));
+        }
+
+        return readers;
     }
 }
