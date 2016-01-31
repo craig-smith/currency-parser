@@ -27,20 +27,22 @@ public class ExchangeCalculator {
 
     /**
      * Do not use this value for currency manipulation. BigDecimal precision could be lost
+     *
      * @param buyRateList
      * @return
      */
-    public BigDecimal calculateBuyRateStandardDeviation(List<? extends BuyRateInterface> buyRateList){
+    public BigDecimal calculateBuyRateStandardDeviation(List<? extends BuyRateInterface> buyRateList) {
         List<BigDecimal> numbers = getNumberListFromBuyRate(buyRateList);
         return calculateStandardDeviation(numbers);
     }
 
     /**
      * Do not use this value for currency manipulation. BigDecimal precision could be lost
+     *
      * @param sellRateList
      * @return
      */
-    public BigDecimal calculateSellRateStandardDeviation(List<? extends SellRateInterface> sellRateList){
+    public BigDecimal calculateSellRateStandardDeviation(List<? extends SellRateInterface> sellRateList) {
         List<BigDecimal> numbers = getNumberListFromSellRate(sellRateList);
         return calculateStandardDeviation(numbers);
     }
@@ -72,16 +74,16 @@ public class ExchangeCalculator {
         return sum.divide(count, MathContext.DECIMAL128);
     }
 
-    private BigDecimal calculateStandardDeviation(List<BigDecimal> numbers){
+    private BigDecimal calculateStandardDeviation(List<BigDecimal> numbers) {
         BigDecimal mean = calculateAverage(numbers);
         BigDecimal variance = calculateVariance(numbers, mean);
         return new BigDecimal(Math.sqrt(variance.doubleValue())); //BigDecimal precision lost here....
     }
 
-    private BigDecimal calculateVariance(List<BigDecimal> numbers, BigDecimal mean){
+    private BigDecimal calculateVariance(List<BigDecimal> numbers, BigDecimal mean) {
         List<BigDecimal> varian = new ArrayList<>();
 
-        for(BigDecimal num : numbers){
+        for (BigDecimal num : numbers) {
             BigDecimal num2 = num.subtract(mean);
             BigDecimal power = num2.multiply(num2);
             varian.add(power);

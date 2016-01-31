@@ -2,7 +2,6 @@ package pl.parser.nbp.xml.entity;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.text.NumberFormat;
 import java.util.Locale;
 

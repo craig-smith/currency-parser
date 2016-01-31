@@ -1,9 +1,10 @@
 package pl.parser.nbp.xml.entity;
 
-import javax.xml.bind.annotation.*;
+import org.joda.time.DateTime;
 
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,12 +16,12 @@ import java.util.List;
 public class RootTable implements CurrencyTableIface {
 
 
-
     @XmlElement(name = "pozycja")
     private List<TypeCTable> currencyListings;
 
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     @XmlElement(name = "data_publikacji")
-    private Date tableDate;
+    private DateTime tableDate;
 
     @XmlElement(name = "numer_tabeli")
     private String tableNumber;
@@ -41,11 +42,11 @@ public class RootTable implements CurrencyTableIface {
     }
 
 
-    public Date getTableDate() {
+    public DateTime getTableDate() {
         return tableDate;
     }
 
-    public void setTableDate(Date tableDate) {
+    public void setTableDate(DateTime tableDate) {
         this.tableDate = tableDate;
     }
 
