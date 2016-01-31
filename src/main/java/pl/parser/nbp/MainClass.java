@@ -51,7 +51,7 @@ public class MainClass {
         BigDecimal buyRateAverage = new ExchangeCalculator().calculateBuyRateAverage(typeCTables);
         BigDecimal sellRateStandardDeviation = new ExchangeCalculator().calculateSellRateStandardDeviation(typeCTables);
 
-        System.out.format("Buy Rate Average: %18.4f%n" , buyRateAverage.doubleValue());
+        System.out.format("Buy Rate Average: %18.4f%n", buyRateAverage.doubleValue());
         System.out.format("Sell Rate Standard Deviation: %.4f%n", sellRateStandardDeviation.doubleValue());
 
     }

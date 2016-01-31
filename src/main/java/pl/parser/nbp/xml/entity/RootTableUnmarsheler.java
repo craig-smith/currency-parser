@@ -16,21 +16,21 @@ import java.io.IOException;
 public class RootTableUnmarsheler {
     static Logger log = Logger.getLogger(RootTableUnmarsheler.class);
 
-    public RootTable unmarshel(BufferedReader reader){
+    public RootTable unmarshel(BufferedReader reader) {
         RootTable table = null;
         log.debug("unmarsheling buffered reader: " + reader.toString());
-        try{
+        try {
             JAXBContext context = JAXBContext.newInstance(RootTable.class);
             Unmarshaller um = context.createUnmarshaller();
             table = (RootTable) um.unmarshal(reader);
             log.debug("Unmarsheled file " + table.toString());
-        } catch (JAXBException e){
+        } catch (JAXBException e) {
             log.error("Error unmarsheling file ", e);
         } finally {
             try {
                 reader.close();
             } catch (IOException e) {
-               log.error("Error closing buffered reader ", e);
+                log.error("Error closing buffered reader ", e);
             }
         }
         return table;

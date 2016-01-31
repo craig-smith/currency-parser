@@ -14,7 +14,7 @@ public class DateTimeAdapter extends XmlAdapter<String, DateTime> {
     public DateTime unmarshal(String v) throws Exception {
         DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
         DateTime dateTime = formatter.parseDateTime(v);
-        return dateTime ;
+        return dateTime;
     }
 
     @Override

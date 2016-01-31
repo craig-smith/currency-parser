@@ -16,23 +16,18 @@ import java.util.List;
 @Component
 class ExchangeTablesDirectory {
 
-    private static final String PATH_TO_DIRECTORY =  "http://www.nbp.pl/kursy/xml/";
+    private static final String PATH_TO_DIRECTORY = "http://www.nbp.pl/kursy/xml/";
     private static final String FILE_NAME = "dir";
     private static final String EXTENSION = ".txt";
-
+    private final DateTime currentYear = new DateTime();
     @Autowired
     private DocumentFetcher documentFetcher;
-
-
     private DateTime from;
     private DateTime to;
-    private final DateTime currentYear = new DateTime();
-
     private List<String> directoryPaths = new ArrayList<String>();
 
 
-
-    protected void setDates(final DateTime from, final  DateTime to){
+    protected void setDates(final DateTime from, final DateTime to) {
         this.from = new DateTime(from);
         this.to = new DateTime(to);
 
@@ -40,24 +35,24 @@ class ExchangeTablesDirectory {
 
     protected List<BufferedReader> getDirectoryReaders() {
         boolean quit = false;
-        do{
-            if(Years.yearsBetween(from, to).getYears() == 0){
+        do {
+            if (Years.yearsBetween(from, to).getYears() == 0) {
                 quit = true;
             }
-            if(Years.yearsBetween(from, currentYear).getYears() == 0){
+            if (Years.yearsBetween(from, currentYear).getYears() == 0) {
                 getCurrentYearDirectories();
-            }else{
+            } else {
                 getPreviousYearDirectories(String.valueOf(from.getYear()));
                 from = from.plusYears(1);
             }
 
 
-        }while(!quit);
+        } while (!quit);
 
         return getReaders();
     }
 
-    private void getPreviousYearDirectories(String year){
+    private void getPreviousYearDirectories(String year) {
         StringBuilder pathBuilder = new StringBuilder();
         pathBuilder.append(PATH_TO_DIRECTORY);
         pathBuilder.append(FILE_NAME);
@@ -67,7 +62,7 @@ class ExchangeTablesDirectory {
         directoryPaths.add(pathBuilder.toString());
     }
 
-    private void getCurrentYearDirectories(){
+    private void getCurrentYearDirectories() {
         StringBuilder pathBuilder = new StringBuilder();
         pathBuilder.append(PATH_TO_DIRECTORY);
         pathBuilder.append(FILE_NAME);
@@ -75,9 +70,9 @@ class ExchangeTablesDirectory {
         directoryPaths.add(pathBuilder.toString());
     }
 
-    private List<BufferedReader> getReaders(){
+    private List<BufferedReader> getReaders() {
         List<BufferedReader> readers = new ArrayList<>();
-        for(String path: directoryPaths){
+        for (String path : directoryPaths) {
             readers.add(documentFetcher.getDocument(path));
         }
 

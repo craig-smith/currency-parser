@@ -13,7 +13,6 @@ import pl.parser.nbp.xml.entity.RootTableUnmarsheler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,12 +23,10 @@ import java.util.List;
 class ExchangeRateXmlDirectory {
 
     static Logger log = Logger.getLogger(ExchangeRateXmlDirectory.class);
-    private List<String> exchangeRateFiles = new ArrayList<>();
-
     private final String PATH_TO_DIRECTORY = "http://www.nbp.pl/kursy/xml/";
     private final String EXTENSION = ".xml";
-    private final String TODAY_lISTING_FILE =  "LastC";
-
+    private final String TODAY_lISTING_FILE = "LastC";
+    private List<String> exchangeRateFiles = new ArrayList<>();
     private DateTime from;
     private DateTime to;
 
@@ -50,7 +47,7 @@ class ExchangeRateXmlDirectory {
                 getExchangeRateXmlPaths(directoryReader);
             }
         }
-        if(to.toLocalDate().equals(new LocalDate())){
+        if (to.toLocalDate().equals(new LocalDate())) {
             addTodayToList();
         }
         return getObjects();

@@ -15,9 +15,9 @@ import java.net.URL;
  */
 @Component
 public class DocumentFetcher {
-static Logger log = Logger.getLogger(DocumentFetcher.class);
+    static Logger log = Logger.getLogger(DocumentFetcher.class);
 
-    public BufferedReader getDocument(String path){
+    public BufferedReader getDocument(String path) {
         BufferedReader bufferedReader = null;
         URL url = getUrl(path);
         HttpURLConnection httpURLConnection = getHttpConnection(url);
@@ -27,33 +27,33 @@ static Logger log = Logger.getLogger(DocumentFetcher.class);
 
     private BufferedReader getStreamReader(HttpURLConnection httpURLConnection) {
         BufferedReader bufferedReader = null;
-        try{
+        try {
             log.debug("getting Reader for " + httpURLConnection);
-           bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
-        }catch (IOException e){
+            bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+        } catch (IOException e) {
             log.error("Error getting input stream ", e);
         }
-       return bufferedReader;
+        return bufferedReader;
     }
 
-    private URL getUrl(String path){
+    private URL getUrl(String path) {
         URL documentUrl = null;
-        try{
+        try {
             log.debug("getting url for " + path);
             documentUrl = new URL(path);
-        }catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             log.error("Invalid URL. " + path, e);
         }
 
         return documentUrl;
     }
 
-    private HttpURLConnection getHttpConnection(URL url){
+    private HttpURLConnection getHttpConnection(URL url) {
         HttpURLConnection httpURLConnection = null;
-        try{
+        try {
             log.debug("Opening Connection to " + url);
             httpURLConnection = (HttpURLConnection) url.openConnection();
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error("Error opening connection to " + url, e);
         }
 

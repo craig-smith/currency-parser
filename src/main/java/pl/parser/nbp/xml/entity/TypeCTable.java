@@ -1,6 +1,9 @@
 package pl.parser.nbp.xml.entity;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigDecimal;
 
@@ -74,7 +77,7 @@ public class TypeCTable implements BuyRateInterface, SellRateInterface {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Currency Name: " + getCurrencyName() + "\r\n");
         stringBuilder.append("Currency Code: " + getCurrencyCode() + "\r\n");

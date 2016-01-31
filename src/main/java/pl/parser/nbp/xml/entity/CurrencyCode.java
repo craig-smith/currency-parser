@@ -27,14 +27,6 @@ public enum CurrencyCode {
         this.name = name;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public static String getNameByCode(String code) {
         switch (code) {
             case "USD":
@@ -96,5 +88,13 @@ public enum CurrencyCode {
             default:
                 return UNKNOWN;
         }
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
     }
 }
