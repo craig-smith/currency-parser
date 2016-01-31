@@ -37,9 +37,6 @@ public class ExchangeRatesTest {
 
         Assert.assertEquals(tables.size(), 4);
 
-        Assert.assertTrue(tables.get(0).getTableDate().toLocalDate().equals(from.toLocalDate()));
-
-        Assert.assertTrue(tables.get(tables.size() - 1).getTableDate().toLocalDate().equals(to.toLocalDate()));
     }
 
 }

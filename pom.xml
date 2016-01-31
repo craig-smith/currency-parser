@@ -66,8 +66,8 @@
                                     <mainClass>pl.parser.nbp.MainClass</mainClass>
                                     <arguments>
                                         <argument>EUR</argument>
-                                        <argument>2013-01-28</argument>
-                                        <argument>2015-01-31</argument>
+                                        <argument>2012-01-28</argument>
+                                        <argument>2016-01-31</argument>
                                     </arguments>
                                 </configuration>
                             </execution>

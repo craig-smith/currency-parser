@@ -22,6 +22,7 @@ import java.util.List;
 public class MainClass {
 
     public static void main(String[] args) {
+
         ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringConfig.class);
 
         ExchangeRates exchangeRates = (ExchangeRates) ctx.getBean("exchangeRates");

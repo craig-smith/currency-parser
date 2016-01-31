@@ -6,6 +6,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import pl.parser.nbp.http.DocumentFetcher;
 import pl.parser.nbp.xml.entity.RootTable;
@@ -15,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Craig on 1/28/2016.
@@ -26,6 +29,7 @@ class ExchangeRateXmlDirectory {
     private final String PATH_TO_DIRECTORY = "http://www.nbp.pl/kursy/xml/";
     private final String EXTENSION = ".xml";
     private final String TODAY_lISTING_FILE = "LastC";
+    private ExchangeRateList list;
     private List<String> exchangeRateFiles = new ArrayList<>();
     private DateTime from;
     private DateTime to;
@@ -36,6 +40,10 @@ class ExchangeRateXmlDirectory {
 
     @Autowired
     private RootTableUnmarsheler rootTableUnmarsheler;
+
+    @Autowired
+    private ApplicationContext ctx;
+
 
     protected List<RootTable> getExchangeRateXmlObjectsByType(final DateTime from, final DateTime to, final List<BufferedReader> directoryReaders) {
         log.debug("Starting reading year directories total " + directoryReaders.size());
@@ -50,7 +58,13 @@ class ExchangeRateXmlDirectory {
         if (to.toLocalDate().equals(new LocalDate())) {
             addTodayToList();
         }
-        return getObjects();
+        getObjects();
+        if (list != null) {
+            return list.getList();
+        } else {
+            return new ArrayList<RootTable>();
+        }
+
     }
 
     private void addTodayToList() {
@@ -96,12 +110,22 @@ class ExchangeRateXmlDirectory {
         }
     }
 
-    private List<RootTable> getObjects() {
-        List<RootTable> exchangeRates = new ArrayList<>();
+    private void getObjects() {
+        ExecutorService executorService = Executors.newFixedThreadPool(25);
+        log.debug("Created executer service");
+        list = new ExchangeRateList();
         for (String path : exchangeRateFiles) {
-            BufferedReader xmlReader = documentFetcher.getDocument(path);
-            exchangeRates.add(rootTableUnmarsheler.unmarshel(xmlReader));
+
+            RootTableRunnable rootTableRunnable = ctx.getBean(RootTableRunnable.class);
+            rootTableRunnable.setPath(path, list);
+            executorService.execute(rootTableRunnable);
+            log.debug("added to pool: " + path);
         }
-        return exchangeRates;
+        executorService.shutdown();
+        while (!executorService.isTerminated()) {
+
+        }
+        log.debug("Finished all threads");
+
     }
 }
