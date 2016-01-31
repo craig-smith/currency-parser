@@ -29,7 +29,6 @@ class ExchangeRateXmlDirectory {
     private final String PATH_TO_DIRECTORY = "http://www.nbp.pl/kursy/xml/";
     private final String EXTENSION = ".xml";
     private final String TODAY_lISTING_FILE = "LastC";
-    private ExchangeRateList list;
     private List<String> exchangeRateFiles = new ArrayList<>();
     private DateTime from;
     private DateTime to;
@@ -58,13 +57,7 @@ class ExchangeRateXmlDirectory {
         if (to.toLocalDate().equals(new LocalDate())) {
             addTodayToList();
         }
-        getObjects();
-        if (list != null) {
-            return list.getList();
-        } else {
-            return new ArrayList<RootTable>();
-        }
-
+        return getObjects();
     }
 
     private void addTodayToList() {
@@ -110,10 +103,10 @@ class ExchangeRateXmlDirectory {
         }
     }
 
-    private void getObjects() {
+    private List<RootTable> getObjects() {
         ExecutorService executorService = Executors.newFixedThreadPool(25);
         log.debug("Created executer service");
-        list = new ExchangeRateList();
+        ExchangeRateList list = new ExchangeRateList();
         for (String path : exchangeRateFiles) {
 
             RootTableRunnable rootTableRunnable = ctx.getBean(RootTableRunnable.class);
@@ -126,6 +119,6 @@ class ExchangeRateXmlDirectory {
 
         }
         log.debug("Finished all threads");
-
+        return list.getList();
     }
 }
